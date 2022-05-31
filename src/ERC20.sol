@@ -5,48 +5,23 @@ pragma solidity >=0.8.14;
 /// @author Solmate (https://github.com/Rari-Capital/solmate/blob/main/src/tokens/ERC20.sol)
 /// @author Modified from Uniswap (https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2ERC20.sol)
 /// @dev Do not manually set balances without updating totalSupply, as the sum of all user balances must not exceed it.
+
 abstract contract ERC20 {
-    /*//////////////////////////////////////////////////////////////
-                                 EVENTS
-    //////////////////////////////////////////////////////////////*/
-
     event Transfer(address indexed from, address indexed to, uint256 amount);
-
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 
-    /*//////////////////////////////////////////////////////////////
-                            METADATA STORAGE
-    //////////////////////////////////////////////////////////////*/
-
     string public name;
-
     string public symbol;
-
     uint8 public immutable decimals;
 
-    /*//////////////////////////////////////////////////////////////
-                              ERC20 STORAGE
-    //////////////////////////////////////////////////////////////*/
-
     uint256 public totalSupply;
-
     mapping(address => uint256) public balanceOf;
-
     mapping(address => mapping(address => uint256)) public allowance;
 
-    /*//////////////////////////////////////////////////////////////
-                            EIP-2612 STORAGE
-    //////////////////////////////////////////////////////////////*/
-
+    // EIP-2612 STORAGE
     uint256 internal immutable INITIAL_CHAIN_ID;
-
     bytes32 internal immutable INITIAL_DOMAIN_SEPARATOR;
-
     mapping(address => uint256) public nonces;
-
-    /*//////////////////////////////////////////////////////////////
-                               CONSTRUCTOR
-    //////////////////////////////////////////////////////////////*/
 
     constructor(
         string memory _name,
@@ -61,29 +36,19 @@ abstract contract ERC20 {
         INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();
     }
 
-    /*//////////////////////////////////////////////////////////////
-                               ERC20 LOGIC
-    //////////////////////////////////////////////////////////////*/
-
+    // ERC20 LOGIC
     function approve(address spender, uint256 amount) public virtual returns (bool) {
         allowance[msg.sender][spender] = amount;
-
         emit Approval(msg.sender, spender, amount);
-
         return true;
     }
 
     function transfer(address to, uint256 amount) public virtual returns (bool) {
         balanceOf[msg.sender] -= amount;
-
-        // Cannot overflow because the sum of all user
-        // balances can't exceed the max uint256 value.
         unchecked {
             balanceOf[to] += amount;
         }
-
         emit Transfer(msg.sender, to, amount);
-
         return true;
     }
 
@@ -93,26 +58,16 @@ abstract contract ERC20 {
         uint256 amount
     ) public virtual returns (bool) {
         uint256 allowed = allowance[from][msg.sender]; // Saves gas for limited approvals.
-
         if (allowed != type(uint256).max) allowance[from][msg.sender] = allowed - amount;
-
         balanceOf[from] -= amount;
-
-        // Cannot overflow because the sum of all user
-        // balances can't exceed the max uint256 value.
         unchecked {
             balanceOf[to] += amount;
         }
-
         emit Transfer(from, to, amount);
-
         return true;
     }
 
-    /*//////////////////////////////////////////////////////////////
-                             EIP-2612 LOGIC
-    //////////////////////////////////////////////////////////////*/
-
+    // EIP-2612 LOGIC
     function permit(
         address owner,
         address spender,
@@ -123,9 +78,6 @@ abstract contract ERC20 {
         bytes32 s
     ) public virtual {
         require(deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
-
-        // Unchecked because the only math done is incrementing
-        // the owner's nonce which cannot realistically overflow.
         unchecked {
             address recoveredAddress = ecrecover(
                 keccak256(
@@ -150,12 +102,9 @@ abstract contract ERC20 {
                 r,
                 s
             );
-
             require(recoveredAddress != address(0) && recoveredAddress == owner, "INVALID_SIGNER");
-
             allowance[recoveredAddress][spender] = value;
         }
-
         emit Approval(owner, spender, value);
     }
 
@@ -176,31 +125,20 @@ abstract contract ERC20 {
             );
     }
 
-    /*//////////////////////////////////////////////////////////////
-                        INTERNAL MINT/BURN LOGIC
-    //////////////////////////////////////////////////////////////*/
-
+    // INTERNAL MINT/BURN LOGIC
     function _mint(address to, uint256 amount) public virtual {
         totalSupply += amount;
-
-        // Cannot overflow because the sum of all user
-        // balances can't exceed the max uint256 value.
         unchecked {
             balanceOf[to] += amount;
         }
-
         emit Transfer(address(0), to, amount);
     }
 
     function _burn(address from, uint256 amount) public virtual {
         balanceOf[from] -= amount;
-
-        // Cannot underflow because a user's balance
-        // will never be larger than the total supply.
         unchecked {
             totalSupply -= amount;
         }
-
         emit Transfer(from, address(0), amount);
     }
 }

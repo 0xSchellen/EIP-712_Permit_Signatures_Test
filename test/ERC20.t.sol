@@ -7,10 +7,6 @@ import {MockERC20} from "./utils/MockERC20.sol";
 import {SigUtils} from "./utils/SigUtils.sol";
 
 contract ERC20Test is Test {
-    ///                                                          ///
-    ///                           SETUP                          ///
-    ///                                                          ///
-
     MockERC20 internal token;
     SigUtils internal sigUtils;
 
@@ -129,7 +125,7 @@ contract ERC20Test is Test {
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
-        vm.expectRevert("INVALID_SIGNER");
+        vm.expectRevert("INVALID_NONCE");
         token.permit(
             permit.owner,
             permit.spender,
@@ -164,7 +160,7 @@ contract ERC20Test is Test {
             s
         );
 
-        vm.expectRevert("INVALID_SIGNER");
+        vm.expectRevert("INVALID_SIGNATURE_REPLAY");
         token.permit(
             permit.owner,
             permit.spender,
