@@ -1,6 +1,6 @@
 Github Repo Commands
 git init -b main
-git add
+git add .
 git commit -m "initial commit"
 git remote add origin  https://github.com/0xSchellen/ERC721_NFT 
 git remote -v
