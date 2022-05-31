@@ -1,0 +1,44 @@
+Deploying
+https://book.getfoundry.sh/reference/forge/forge-create.html
+
+Arbitrum Testnet (incluir remmapings ?)
+forge create src/NFT.sol:NFT --rpc-url=https://rinkeby.arbitrum.io/rpc --private-key=0x6b15b303d0d0a41fb6da206959ce972033f559537e2162e5160d94d36a11d2dc --etherscan-api-key TVRFDNXZ23EUKYUIKTMJV2E2B716SI6FTD --constructor-args "myNFT" "MNFT"
+
+[⠆] Compiling...
+[⠘] Compiling 1 files with 0.8.13
+[⠊] Solc 0.8.13 finished in 1.64s
+Compiler run successful
+Deployer: 0x78c7f50066bf532a50361084b2c24f7e71a48910
+Deployed to: 0x95dcfd0e049517c76443d08fc799ffe61a8bb1d9
+Transaction hash: 0xdf58b41f744d4b2e30b5871c1e0bdd08936d666e3d14bbc0051f545a43421dce
+
+------
+Verifying 
+forge verify-contract [options] --compiler-version compiler_version address contract [etherscan_key]
+
+Arbitrum Testnet
+forge verify-contract --chain 421611 --compiler-version v0.8.13+commit.abaa5c0e 0x95dcfd0e049517c76443d08fc799ffe61a8bb1d9 src/NFT.sol:NFT TVRFDNXZ23EUKYUIKTMJV2E2B716SI6FTD
+
+Submitted contract for verification:
+    Response: `OK`
+    GUID: `xvdfgxnnn29pg4wksuxairhraw7psnflt48tjvykbblexaypht`
+    url: https://testnet.arbiscan.io/address/0x95dcfd0e049517c76443d08fc799ffe61a8bb1d9#code
+
+
+forge verify-contract --chain 421611 --compiler-version v0.8.13+commit.abaa5c0e 0x95dcfd0e049517c76443d08fc799ffe61a8bb1d9 src/NFT.sol:NFT TVRFDNXZ23EUKYUIKTMJV2E2B716SI6FTD --constructor-args "myNFT" "MNFT"
+
+------
+Verify-check
+forge verify-check [options] guid [etherscan_key]
+
+Arbitrum Testnet
+forge verify-check --chain 421611 xvdfgxnnn29pg4wksuxairhraw7psnflt48tjvykbblexaypht TVRFDNXZ23EUKYUIKTMJV2E2B716SI6FTD
+
+Contract verification failed:
+Response: `NOTOK`
+Details: `Fail - Unable to verify`
+
+------
+
+
+

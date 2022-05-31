@@ -1,0 +1,155 @@
+Github Repo Commands
+git init -b main
+git add
+git commit -m "initial commit"
+git remote add origin  https://github.com/0xSchellen/ERC721_NFT 
+git remote -v
+git push origin main
+==================================================================
+
+Install Foundry Program : ""https://github.com/foundry-rs/foundry
+
+- Install on Linux
+curl -L https://foundry.paradigm.xyz | bash;
+foundryup
+
+- Install on Windows
+open bash
+cd C:\Users\carlo
+delete foundry directory 
+rm -r foundry
+
+git clone https://github.com/foundry-rs/foundry
+cd foundry
+# install cast + forge
+cargo install --path ./cli --bins --locked --force
+# install anvil
+cargo install --path ./anvil --locked --force
+==================================================================
+
+Foundry Basic initalization
+cd into project directory
+
+git init 
+
+forge init --force
+forge install foundry-rs/forge-std
+forge install Rari-Capital/solmate 
+forge install Openzeppelin/openzeppelin-contracts
+
+==================================================================
+Create file remappings.txt on the project´s root directory
+
+forge-std/=lib/forge-std/src/
+ds-test/=lib/forge-std/lib/ds-test/src/
+openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/
+solmate/=lib/solmate/src/
+gnosis/=lib/safe-contracts/contracts/
+
+==================================================================
+Forge Commands
+forge build
+forge test
+forge test --match-test testExploit --match-contract Unstoppable
+
+Compile & deploy
+export RPC_URL=https://rinkeby.arbitrum.io/rpc
+export PRIVATE_KEY=0x6b...d36a11d2dc
+export name=myNFT
+export symbol=MNFT
+forge create NFT --rpc-url=$RPC_URL --private-key=$PRIVATE_KEY --constructor-args <name> <symbol> 
+
+---
+git submodule update --init --recursive
+---
+
+Consultar repositório:
+https://github.com/FredCoen/nft-tutorial/blob/master/src/SolmateNft.sol
+https://github.com/FredCoen/nft-tutorial/blob/master/src/OpenZeppelinNft.sol
+
+------
+Diversos   
+https://jamesbachini.com/foundry-tutorial/
+To clone a repo from Github we can use the forge command:
+forge install jamesbachini/myVault -hh
+with the –hh modifier which is used to migrate hardhat repositories.
+
+---
+How To Setup Foundry With Hardhat
+[default]
+src = 'contracts'
+test = 'test'
+out = 'artifacts/contracts'
+libs = ['lib']
+---
+Testing With Solidity
+Before we start writing unit tests we need to install the standard library
+forge install foundry-rs/forge-std
+---
+
+forge test --match-test optionalSpecificTest --match-contract optionalSpecificContract
+ou
+forge run src/Contract.sol // run a single script
+forge run src/Contract.sol --debug // open script in debugger
+forge run src/Contract.sol --sig "foo(string)" "hi" // execute a function
+---
+Once we have found a bug we can use the -v command to increase verbosity and get more details.
+debug with logs -vv
+debug with traces for failing tests -vvv
+debug with traces for all tests -vvvv
+---
+debugger
+forge test --debug "testSomething"
+---
+It is possible to fork a blockchain locally and then 
+test our contracts with external smart contracts. 
+This is useful if you want to interact with other defi 
+protocols like Uniswap for example or execute stress 
+tests using real market data.
+forge test --fork-url https://eth-mainnet.alchemyapi.io/v2/abc123alchmeyApiKey
+---
+Foundry Cheat Codes
+Foundry has a set of cheat codes which can be used when 
+testing to make modifications to the state of the blockchain. 
+These can be executed directly to contract: 
+0x7109709ECfa91a80626fF3989D68f67F5b1DD12D but more often they 
+are executed via the standard library and vm object.
+---
+Essential Cheat Codes – Full list here: 
+https://github.com/foundry-rs/forge-std/blob/master/src/Vm.sol
+---
+
+}
+---
+forge test --match-test optionalSpecificTest --match-contract optionalSpecificContract
+ou
+forge run src/Contract.sol // run a single script
+forge run src/Contract.sol --debug // open script in debugger
+forge run src/Contract.sol --sig "foo(string)" "hi" // execute a function
+---
+Once we have found a bug we can use the -v command to increase verbosity and get more details.
+debug with logs -vv
+debug with traces for failing tests -vvv
+debug with traces for all tests -vvvv
+---
+debugger
+forge test --debug "testSomething"
+---
+It is possible to fork a blockchain locally and then 
+test our contracts with external smart contracts. 
+This is useful if you want to interact with other defi 
+protocols like Uniswap for example or execute stress 
+tests using real market data.
+forge test --fork-url https://eth-mainnet.alchemyapi.io/v2/abc123alchmeyApiKey
+---
+Foundry Cheat Codes
+Foundry has a set of cheat codes which can be used when 
+testing to make modifications to the state of the blockchain. 
+These can be executed directly to contract: 
+0x7109709ECfa91a80626fF3989D68f67F5b1DD12D but more often they 
+are executed via the standard library and vm object.
+---
+Essential Cheat Codes – Full list here: 
+https://github.com/foundry-rs/forge-std/blob/master/src/Vm.sol
+---
+
